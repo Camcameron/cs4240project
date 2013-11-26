@@ -31,11 +31,14 @@ public class EntityRobot extends EntityMob// extend this to make mob
 		//this.texture = "/mob/RobotTexture.png";
 
 		//
-
 	}
 	
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
+	}
+	
+	public int func_110143_aJ () {
+		return 10;
 	}
 
 	public int func_82193_c(Entity par1Entity) // the amount of damage
