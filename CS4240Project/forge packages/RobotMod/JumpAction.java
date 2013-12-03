@@ -2,7 +2,7 @@ package RobotMod;
 
 public class JumpAction implements EntityAction {
 
-	public void performAction(EntityRobot robot) {
+	public void performAction(Entity robot) {
 		robot.jump();	
 	}
 

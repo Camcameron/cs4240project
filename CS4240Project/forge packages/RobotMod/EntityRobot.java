@@ -87,11 +87,12 @@ public class EntityRobot extends EntityMob// extend this to make mob
 			robot.setFire(1);	
 		}
 	}
+	*/
 	
 	public void setAction(EntityAction action){
 		this.action = action;
 	}
-	*/
+	
 	///             ///
 	///////////////////
 	
