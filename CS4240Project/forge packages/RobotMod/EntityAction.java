@@ -1,9 +1,9 @@
 package RobotMod;
 
+import net.minecraft.entity.EntityLiving;
+
 public interface EntityAction {
 	
-	public void performAction(EntityRobot robot) {
-		robot.jump();	
-	}
+	public void performAction(EntityLiving entity);
 
 }

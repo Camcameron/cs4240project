@@ -29,7 +29,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityRobot extends EntityMob// extend this to make mob
+public class EntityRobot extends EntityMob implements Controllable// extend this to make mob
 												// hostile
 {
 	EntityAction action;
@@ -59,7 +59,17 @@ public class EntityRobot extends EntityMob// extend this to make mob
 
 		//
 	}
-	
+
+	//The controller block changes state and passes the corresponding EntityAction to the robot
+	public void updateBehavior(EntityAction action) {
+		//Clear existing tasks
+		this.tasks.taskEntries.clear();
+		
+		//change action
+		this.action = action;
+
+	}
+
 	protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
@@ -71,45 +81,43 @@ public class EntityRobot extends EntityMob// extend this to make mob
 	////////////////////
 	///Action classes///
 	/*
-	public interface EntityAction{
-		public void performAction(EntityRobot robot);
-	}
-	
 	public class JumpAction implements EntityAction{
 		public void performAction(EntityRobot robot) {
 			robot.jump();	
 		}
 		
 	}
-	
-	public class AttackAction implements EntityAction{
-		public void performAction(EntityRobot robot) {
-			robot.setFire(1);	
-		}
-	}
 	*/
-	
+
+	/*
 	public void setAction(EntityAction action){
 		this.action = action;
 	}
-	
+	*/
 	///             ///
 	///////////////////
 	
 	public void onLivingUpdate() {
 //		this.jump();
-		if(removeLater == true){
-			this.setAction(new AttackAction());
-			removeLater = false;
+		
+		if (this.worldObj.isDaytime() && !this.worldObj.isRemote) {
+			this.updateBehavior(new IdleAction());
+		} else {
+			this.updateBehavior(new AttackAction());
 		}
-		else{
-			this.setAction(new JumpAction());
-			removeLater = true;
-		}
+//		if(removeLater == true){
+//			this.setAction(new AttackAction());
+//			removeLater = false;
+//		}
+//		else{
+//			this.setAction(new JumpAction());
+//			removeLater = true;
+//		}
 	this.action.performAction(this);
 		super.onLivingUpdate();
 	}
 	
+	//AMount of health
 	public int func_110143_aJ () {
 		return 10;
 	}
