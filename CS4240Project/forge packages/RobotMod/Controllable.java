@@ -1,7 +1,7 @@
-package net.minecraft.src;
+package RobotMod;
 
 public interface Controllable {
 	
-	public void updateBehavior();
+	public void updateBehavior(EntityAction action);
 
 }
