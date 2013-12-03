@@ -70,6 +70,7 @@ public class EntityRobot extends EntityMob// extend this to make mob
 	
 	////////////////////
 	///Action classes///
+	/*
 	public interface EntityAction{
 		public void performAction(EntityRobot robot);
 	}
@@ -90,6 +91,7 @@ public class EntityRobot extends EntityMob// extend this to make mob
 	public void setAction(EntityAction action){
 		this.action = action;
 	}
+	*/
 	///             ///
 	///////////////////
 	
