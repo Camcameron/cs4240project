@@ -28,8 +28,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import RobotMod.actions.*;
+import RobotMod.actions.EntityAction;
 
-public class EntityRobot extends EntityMob implements Controllable// extend this to make mob
+public class EntityRobot extends EntityMob // extend this to make mob
 												// hostile
 {
 	EntityAction action;
@@ -39,21 +41,10 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 		super(par1World);
 		removeLater = true;
 		this.experienceValue = 20;
-		//this.tasks.addTask(1, new EntityAILookIdle(this));
-		this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true)); this.tasks.addTask(0, new EntityAISwimming(this));
-        //this.tasks.addTask(1, new EntityAIBreakDoor(this));
-        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityVillager.class, 1.0D, true));
-        this.tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
-       // this.tasks.addTask(5, new EntityAIMoveThroughVillage(this, 1.0D, false));
-        this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityVillager.class, 0, false));
-		//this.texture = "";
+		this.action =  new IdleAction();
+		
+
+        
 		//texture is set in RenderRobot.java
 		//this.texture = "/mob/RobotTexture.png";
 
@@ -61,14 +52,14 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 	}
 
 	//The controller block changes state and passes the corresponding EntityAction to the robot
-	public void updateBehavior(EntityAction action) {
-		//Clear existing tasks
-		this.tasks.taskEntries.clear();
-		
-		//change action
-		this.action = action;
-
-	}
+//	public void updateBehavior(EntityAction action) {
+//		//Clear existing tasks
+//		//this.tasks.taskEntries.clear();
+//		
+//		//change action
+//		this.action = action;
+//
+//	}
 
 	protected void applyEntityAttributes()
     {
@@ -78,6 +69,19 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(3.0D);
     }
 	
+	public class DAttackAction implements EntityAction {
+
+		@Override
+		public void performAction(EntityRobot robot) {	
+	        robot.setFire(1);
+		}
+
+		@Override
+		public void removeAction(EntityRobot robot) {
+			robot.extinguish();
+		}
+
+	}
 	////////////////////
 	///Action classes///
 	/*
@@ -100,10 +104,16 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 	public void onLivingUpdate() {
 //		this.jump();
 		
-		if (this.worldObj.isDaytime() && !this.worldObj.isRemote) {
-			this.updateBehavior(new IdleAction());
-		} else {
-			this.updateBehavior(new AttackAction());
+		if(!this.worldObj.isRemote){
+			if (this.worldObj.isDaytime()) {
+				System.out.println("true");
+				this.action.removeAction(this);
+				this.action = new IdleAction();
+			} else {
+				System.out.println("false");
+				this.action.removeAction(this);
+				this.action = new AttackAction();
+			}
 		}
 //		if(removeLater == true){
 //			this.setAction(new AttackAction());
@@ -113,7 +123,7 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 //			this.setAction(new JumpAction());
 //			removeLater = true;
 //		}
-	this.action.performAction(this);
+		this.action.performAction(this);
 		super.onLivingUpdate();
 	}
 	
