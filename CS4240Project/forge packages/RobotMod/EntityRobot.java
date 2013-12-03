@@ -64,7 +64,7 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 	public void updateBehavior(EntityAction action) {
 		//Clear existing tasks
 		this.tasks.taskEntries.clear();
-		
+		this.targetTasks.taskEntries.clear();
 		//change action
 		this.action = action;
 
@@ -101,9 +101,9 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 //		this.jump();
 		
 		if (this.worldObj.isDaytime() && !this.worldObj.isRemote) {
-			this.updateBehavior(new IdleAction());
-		} else {
 			this.updateBehavior(new AttackAction());
+		} else {
+			this.updateBehavior(new IdleAction());
 		}
 //		if(removeLater == true){
 //			this.setAction(new AttackAction());
