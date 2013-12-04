@@ -2,6 +2,9 @@ package RobotMod;
 
 import java.util.List;
 
+import RobotMod.actions.AttackAction;
+import RobotMod.actions.JumpAction;
+
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.src.ModLoader;
 import net.minecraft.tileentity.TileEntity;
@@ -33,6 +36,8 @@ public class BlockControllerTileEntity extends TileEntity {
 		for(i = 0; i < list.size(); i++){
 			System.out.println("!wwwwwwwwwww!");
 			System.out.println(list.get(i));
+			//((EntityRobot) list.get(i)).changeBehavior(new JumpAction());
+			((EntityRobot) list.get(i)).setJumping(true);
 			System.out.println("!wwwwwwwwwww!");
 			
 		}
