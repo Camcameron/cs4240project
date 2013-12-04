@@ -25,8 +25,8 @@ public class AttackAction implements EntityAction {
 //	}
 	@Override
 	public void performAction(EntityRobot robot) {	
-		//if(enacted == false){
-		//robot.tasks.taskEntries.clear();
+		//Adds the tasks.
+		//If you add a new task, please add a corresponding remove function in removeAction
         robot.tasks.addTask(0, new EntityAISwimming(robot));
         robot.tasks.addTask(1, new EntityAIBreakDoor(robot));
         robot.tasks.addTask(2, new EntityAIAttackOnCollide(robot, EntityPlayer.class, 1.0D, false));
@@ -44,10 +44,7 @@ public class AttackAction implements EntityAction {
 
 	@Override
 	public void removeAction(EntityRobot robot) {
-//		robot.tasks.taskEntries.clear();
-//		robot.targetTasks.taskEntries.clear();
-		//int i;
-		//for(i = 0; i < robot.tasks.taskEntries.size(); i++){
+		//Must explicitely remove ALL tasks that you added for it do
 		robot.tasks.removeTask(new EntityAISwimming(robot));
         robot.tasks.removeTask(new EntityAIBreakDoor(robot));
         robot.tasks.removeTask(new EntityAIAttackOnCollide(robot, EntityPlayer.class, 1.0D, false));

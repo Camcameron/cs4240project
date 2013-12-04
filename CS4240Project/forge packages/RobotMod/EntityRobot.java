@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 import RobotMod.actions.*;
 import RobotMod.actions.EntityAction;
 
-public class EntityRobot extends EntityMob // extend this to make mob
+public class EntityRobot extends EntityMob implements Controllable// extend this to make mob
 												// hostile
 {
 	EntityAction action;
@@ -52,36 +52,23 @@ public class EntityRobot extends EntityMob // extend this to make mob
 	}
 
 	//The controller block changes state and passes the corresponding EntityAction to the robot
-//	public void updateBehavior(EntityAction action) {
-//		//Clear existing tasks
-//		//this.tasks.taskEntries.clear();
-//		
-//		//change action
-//		this.action = action;
-//
-//	}
+	public void changeBehavior(EntityAction action) {
+		//Clear existing tasks
+		//this.tasks.taskEntries.clear();
+		
+		//change action
+		this.action = action;
+
+	}
 
 	protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.followRange).setAttribute(40.0D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.23000000417232513D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(3.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(2.0D);
     }
 	
-	public class DAttackAction implements EntityAction {
-
-		@Override
-		public void performAction(EntityRobot robot) {	
-	        robot.setFire(1);
-		}
-
-		@Override
-		public void removeAction(EntityRobot robot) {
-			robot.extinguish();
-		}
-
-	}
 	////////////////////
 	///Action classes///
 	/*
@@ -115,14 +102,7 @@ public class EntityRobot extends EntityMob // extend this to make mob
 				this.action = new AttackAction();
 			}
 		}
-//		if(removeLater == true){
-//			this.setAction(new AttackAction());
-//			removeLater = false;
-//		}
-//		else{
-//			this.setAction(new JumpAction());
-//			removeLater = true;
-//		}
+
 		this.action.performAction(this);
 		super.onLivingUpdate();
 	}
@@ -166,8 +146,10 @@ public class EntityRobot extends EntityMob // extend this to make mob
 		return true;
 	}
 
-	protected boolean isAIEnabled()// Allow your AI task to work?
+	protected boolean isAIEnabled()// .Allow your AI task to work?
 	{
 		return true;
 	}
+
+
 }

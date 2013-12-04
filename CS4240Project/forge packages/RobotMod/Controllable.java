@@ -1,7 +1,9 @@
 package RobotMod;
 
+import RobotMod.actions.EntityAction;
+
 public interface Controllable {
 	
-	public void updateBehavior(EntityAction action);
+	public void changeBehavior(EntityAction action);
 
 }
