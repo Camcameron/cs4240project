@@ -8,11 +8,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockController extends Block {
+public class BlockController extends BlockContainer {
 	private boolean sensible;
 
 	public BlockController(int par1, Material par2Material) {
@@ -107,6 +108,8 @@ public class BlockController extends Block {
             //par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 + k1, 3);
             //par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
             par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "random.click", 0.3F, 0.6F);
+            this.setLightValue(20);
+            
             //this.func_82536_d(par1World, par2, par3, par4, j1);
             //par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
             return true;
@@ -231,5 +234,11 @@ public class BlockController extends Block {
             par1World.notifyBlocksOfNeighborChange(par2, par3 - 1, par4, this.blockID);
         }
     }
+
+	@Override
+	public TileEntity createNewTileEntity(World world) {
+		// TODO Auto-generated method stub
+		return new BlockControllerTileEntity();
+	}
 
 }
