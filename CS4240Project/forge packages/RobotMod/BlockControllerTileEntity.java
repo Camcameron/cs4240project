@@ -3,8 +3,9 @@ package RobotMod;
 import java.util.List;
 
 import RobotMod.actions.AttackAction;
+import RobotMod.actions.IdleAction;
 import RobotMod.actions.JumpAction;
-
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.src.ModLoader;
 import net.minecraft.tileentity.TileEntity;
@@ -20,11 +21,11 @@ public class BlockControllerTileEntity extends TileEntity {
         //this.delay = 20; also check out pressure plates?
     }
     
-	public List robotsInRange()
+	public List<Controllable> robotsInRange()
     {
 		double d0 = 8.0D;
-        double d1 = 5.0D;
-        List list = this.worldObj.getEntitiesWithinAABB(EntityRobot.class, AxisAlignedBB.getAABBPool().getAABB((double)this.xCoord - d0, (double)this.yCoord - d1, (double)this.zCoord - d0, (double)this.xCoord + d0, (double)this.yCoord + d1, (double)this.zCoord + d0));
+        double d1 = 5.0D;        
+        List list = this.worldObj.getEntitiesWithinAABB(Controllable.class, AxisAlignedBB.getAABBPool().getAABB((double)this.xCoord - d0, (double)this.yCoord - d1, (double)this.zCoord - d0, (double)this.xCoord + d0, (double)this.yCoord + d1, (double)this.zCoord + d0));
         //list.get(1).
 		return list;
     }	
@@ -32,12 +33,12 @@ public class BlockControllerTileEntity extends TileEntity {
 	public void updateEntity()
 	{
 		int i = 0;
-		List list = robotsInRange();
+		List<Controllable> list = robotsInRange();
 		for(i = 0; i < list.size(); i++){
 			System.out.println("!wwwwwwwwwww!");
 			System.out.println(list.get(i));
 			//((EntityRobot) list.get(i)).changeBehavior(new JumpAction());
-			((EntityRobot) list.get(i)).setJumping(true);
+			( (EntityLivingBase) list.get(i)).setJumping(true);
 			System.out.println("!wwwwwwwwwww!");
 			
 		}
@@ -53,5 +54,17 @@ public class BlockControllerTileEntity extends TileEntity {
 	public void load(){
 		ModLoader.registerTileEntity(BlockControllerTileEntity.class, "BlockController");	
 	}
-	
+
+	/*
+	public void resetAI() {
+		// TODO Auto-generated method stub		
+		List<Controllable> list = robotsInRange();
+		for (Controllable c : list ) {			
+			((EntityLivingBase) c).setJumping(false);
+			
+			c.changeBehavior(new IdleAction());
+		}
+		
+	}
+	*/
 }

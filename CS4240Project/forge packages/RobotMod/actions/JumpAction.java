@@ -1,10 +1,11 @@
 package RobotMod.actions;
 
+import net.minecraft.entity.EntityLiving;
 import RobotMod.EntityRobot;
 
 public class JumpAction implements EntityAction {
 	
-	public void performAction(EntityRobot robot) {
+	public void performAction(EntityLiving robot) {
 		//Adds the tasks.
 		//If you add a new task, please add a corresponding remove function in removeAction
 		//Note: This isn't a task so does not need to be removed but something that ends it is helpful too
@@ -12,7 +13,7 @@ public class JumpAction implements EntityAction {
 	}
 
 	@Override
-	public void removeAction(EntityRobot robot) {
+	public void removeAction(EntityLiving robot) {
 		robot.extinguish();
 		
 	}

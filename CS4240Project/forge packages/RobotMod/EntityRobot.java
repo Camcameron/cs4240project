@@ -57,7 +57,9 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 		//this.tasks.taskEntries.clear();
 		
 		//change action
+		
 		this.action = action;
+		
 
 	}
 
@@ -93,11 +95,11 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 		
 		if(!this.worldObj.isRemote){
 			if (this.worldObj.isDaytime()) {
-				System.out.println("true");
+				//System.out.println("true");
 				this.action.removeAction(this);
 				this.action = new IdleAction();
 			} else {
-				System.out.println("false");
+				//System.out.println("false");
 				this.action.removeAction(this);
 				this.action = new AttackAction();
 			}

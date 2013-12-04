@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 
 public class BlockController extends BlockContainer {
 	private boolean sensible;
+	private BlockControllerTileEntity tileEntity;
 
 	public BlockController(int par1, Material par2Material) {
 		super(par1, par2Material);
@@ -25,6 +26,15 @@ public class BlockController extends BlockContainer {
 	public void onBlockAdded(World par1World, int par2, int par3, int par4) {	
 		super.onBlockAdded(par1World, par2, par3, par4);
 	}
+	
+	/*
+	@Override
+	public void onBlockDestroyedByPlayer(World par1World, int par2, int par3, int par4, int par5) {	
+		
+		tileEntity.resetAI();
+		par1World.removeBlockTileEntity(par2, par3, par4);			
+	}
+	*/
 	
     /**
      * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
@@ -238,6 +248,11 @@ public class BlockController extends BlockContainer {
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		// TODO Auto-generated method stub
+		/*
+		tileEntity = new BlockControllerTileEntity();
+		tileEntity.setWorldObj(world);
+		return tileEntity;
+		*/
 		return new BlockControllerTileEntity();
 	}
 
