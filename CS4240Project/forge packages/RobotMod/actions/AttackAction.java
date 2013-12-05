@@ -19,15 +19,15 @@ import net.minecraft.entity.player.EntityPlayer;
 
 
 public class AttackAction implements EntityAction {
-//	static boolean enacted;
-//	
-//	public AttackAction(){
-//		enacted = false;
-//	}
-	@Override
-	public void performAction(EntityLiving robot) {	
-		//Adds the tasks.
-		//If you add a new task, please add a corresponding remove function in removeAction
+//        static boolean enacted;
+//        
+//        public AttackAction(){
+//                enacted = false;
+//        }
+        @Override
+        public void performAction(EntityLiving robot) {        
+                //Adds the tasks.
+                //If you add a new task, please add a corresponding remove function in removeAction
         robot.tasks.addTask(0, new EntityAISwimming(robot));
         robot.tasks.addTask(1, new EntityAIBreakDoor(robot));
         robot.tasks.addTask(2, new EntityAIAttackOnCollide((EntityCreature) robot, EntityPlayer.class, 1.0D, false));
@@ -40,30 +40,16 @@ public class AttackAction implements EntityAction {
         robot.targetTasks.addTask(1, new EntityAIHurtByTarget((EntityCreature) robot, true));
         robot.targetTasks.addTask(2, new EntityAINearestAttackableTarget((EntityCreature) robot, EntityPlayer.class, 0, true));
         robot.targetTasks.addTask(2, new EntityAINearestAttackableTarget((EntityCreature) robot, EntityVillager.class, 0, false));
-		//}
-	}
+                //}
+        }
 
-	@Override
-	public void removeAction(EntityLiving robot) {
-		//Must explicitely remove ALL tasks that you added for it do
-		robot.tasks.taskEntries.clear();
-		robot.targetTasks.taskEntries.clear();
-		/*
-		robot.tasks.removeTask(new EntityAISwimming(robot));
-        robot.tasks.removeTask(new EntityAIBreakDoor(robot));
-        robot.tasks.removeTask(new EntityAIAttackOnCollide((EntityCreature) robot, EntityPlayer.class, 1.0D, false));
-        robot.tasks.removeTask(new EntityAIAttackOnCollide((EntityCreature) robot, EntityVillager.class, 1.0D, true));
-        robot.tasks.removeTask(new EntityAIMoveTowardsRestriction((EntityCreature) robot, 1.0D));
-        robot.tasks.removeTask(new EntityAIMoveThroughVillage((EntityCreature) robot, 1.0D, false));
-        robot.tasks.removeTask(new EntityAIWander((EntityCreature) robot, 1.0D));
-        robot.tasks.removeTask(new EntityAIWatchClosest(robot, EntityPlayer.class, 8.0F));
-        robot.tasks.removeTask(new EntityAILookIdle(robot));
-		robot.targetTasks.removeTask(new EntityAIHurtByTarget((EntityCreature) robot, true));
-	    robot.targetTasks.removeTask(new EntityAINearestAttackableTarget((EntityCreature) robot, EntityPlayer.class, 0, true));
-	    robot.targetTasks.removeTask(new EntityAINearestAttackableTarget((EntityCreature) robot, EntityVillager.class, 0, false));
-	    */
-		
-		
-	}
+        @Override
+        public void removeAction(EntityLiving robot) {
+                //Must explicitely remove ALL tasks that you added for it do
+        robot.tasks.taskEntries.clear();
+        robot.targetTasks.taskEntries.clear();
+                
+                
+        }
 
 }

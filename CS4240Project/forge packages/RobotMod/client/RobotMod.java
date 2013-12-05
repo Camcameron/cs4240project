@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityEggInfo;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.src.ModLoader;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -114,7 +113,6 @@ public class RobotMod {
 		LanguageRegistry.instance().addStringLocalization("block.Controller.name", "en_US",  "Controller");
         MinecraftForge.setBlockHarvestLevel(controller, "shovel", 0);
         GameRegistry.registerBlock(controller, "Controller");
-        ModLoader.registerTileEntity(BlockControllerTileEntity.class, "BlockController");
 	}
 
 	@EventHandler
