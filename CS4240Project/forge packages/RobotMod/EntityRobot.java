@@ -52,15 +52,20 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 	}
 
 	//The controller block changes state and passes the corresponding EntityAction to the robot
-	public void changeBehavior(EntityAction action) {
+	public void changeBehavior(EntityAction a) {
 		//Clear existing tasks
 		//this.tasks.taskEntries.clear();
 		
 		//change action
+		this.action = a;
+		System.out.println(this.action.getClass());
+		System.out.println(a.getClass());		
+//		this.tasks.taskEntries.clear();
+//		this.targetTasks.taskEntries.clear();
+		this.action.removeAction(this);
 		
-		this.action = action;
+		this.action.performAction(this);
 		
-
 	}
 
 	protected void applyEntityAttributes()
@@ -92,7 +97,8 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 	
 	public void onLivingUpdate() {
 //		this.jump();
-		
+			
+		/*
 		if(!this.worldObj.isRemote){
 			if (this.worldObj.isDaytime()) {
 				//System.out.println("true");
@@ -104,6 +110,7 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 				this.action = new AttackAction();
 			}
 		}
+		*/
 
 		this.action.performAction(this);
 		super.onLivingUpdate();

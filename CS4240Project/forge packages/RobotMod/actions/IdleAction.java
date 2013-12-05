@@ -14,7 +14,9 @@ public class IdleAction implements EntityAction {
 
 	@Override
 	public void removeAction(EntityLiving robot) {
-		robot.tasks.removeTask(new EntityAILookIdle(robot));
+		robot.tasks.taskEntries.clear();
+		robot.targetTasks.taskEntries.clear();
+		//robot.tasks.removeTask(new EntityAILookIdle(robot));
 		
 	}
 

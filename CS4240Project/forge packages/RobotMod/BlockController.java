@@ -105,6 +105,10 @@ public class BlockController extends BlockContainer {
      */
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
+    	tileEntity.issueControlSignal();
+    
+		return true;
+    	/*
         int i1 = par1World.getBlockMetadata(par2, par3, par4);
         int j1 = i1 & 7;
         int k1 = 8 - (i1 & 8);
@@ -124,6 +128,7 @@ public class BlockController extends BlockContainer {
             //par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
             return true;
         }
+        */
     }
 
     /**
@@ -248,12 +253,12 @@ public class BlockController extends BlockContainer {
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		// TODO Auto-generated method stub
-		/*
+		
 		tileEntity = new BlockControllerTileEntity();
 		tileEntity.setWorldObj(world);
 		return tileEntity;
-		*/
-		return new BlockControllerTileEntity();
+		
+		//return new BlockControllerTileEntity();
 	}
 
 }

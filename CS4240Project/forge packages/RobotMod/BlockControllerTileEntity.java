@@ -1,6 +1,7 @@
 package RobotMod;
 
 import java.util.List;
+import java.util.Set;
 
 import RobotMod.actions.AttackAction;
 import RobotMod.actions.IdleAction;
@@ -15,6 +16,7 @@ public class BlockControllerTileEntity extends TileEntity {
 	private int field_82350_j = 6;
     private int field_82349_r = 16;
     private int field_82348_s = 4;
+    private List<Controllable> controllableList;
     
     public BlockControllerTileEntity()
     {
@@ -26,22 +28,38 @@ public class BlockControllerTileEntity extends TileEntity {
 		double d0 = 8.0D;
         double d1 = 5.0D;        
         List list = this.worldObj.getEntitiesWithinAABB(Controllable.class, AxisAlignedBB.getAABBPool().getAABB((double)this.xCoord - d0, (double)this.yCoord - d1, (double)this.zCoord - d0, (double)this.xCoord + d0, (double)this.yCoord + d1, (double)this.zCoord + d0));
-        //list.get(1).
+        //list.get(1).        
 		return list;
     }	
 	
+	public void collectControllables() {
+	}
+	
+	public void issueControlSignal() {
+		int i = 0;				
+		controllableList = robotsInRange();		
+		
+		//controllableList = robotsInRange();
+		for(i = 0; i < controllableList.size(); i++){
+//			System.out.println("!wwwwwwwwwww!");
+//			System.out.println(list.get(i));
+			(controllableList.get(i)).changeBehavior(new AttackAction());
+			//( (EntityLivingBase) list.get(i)).setJumping(true);
+//			System.out.println("!wwwwwwwwwww!");
+		}
+	}
 	public void updateEntity()
 	{
-		int i = 0;
-		List<Controllable> list = robotsInRange();
-		for(i = 0; i < list.size(); i++){
-			System.out.println("!wwwwwwwwwww!");
-			System.out.println(list.get(i));
-			//((EntityRobot) list.get(i)).changeBehavior(new JumpAction());
-			( (EntityLivingBase) list.get(i)).setJumping(true);
-			System.out.println("!wwwwwwwwwww!");
-			
-		}
+//		int i = 0;		
+//		List<Controllable> list = robotsInRange();
+//		for(i = 0; i < list.size(); i++){
+////			System.out.println("!wwwwwwwwwww!");
+////			System.out.println(list.get(i));
+//			(list.get(i)).changeBehavior(new AttackAction());
+//			//( (EntityLivingBase) list.get(i)).setJumping(true);
+////			System.out.println("!wwwwwwwwwww!");
+//			
+//		}
 		super.updateEntity();
 		//v might be usefull for getting robots?
 		//EntityRobot robot = null;
@@ -51,9 +69,6 @@ public class BlockControllerTileEntity extends TileEntity {
 		//this.worldObj.createExplosion(this, (double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D, (double)this.field_82349_r);
     }
 	
-	public void load(){
-		ModLoader.registerTileEntity(BlockControllerTileEntity.class, "BlockController");	
-	}
 
 	/*
 	public void resetAI() {
