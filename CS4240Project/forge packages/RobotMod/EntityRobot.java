@@ -42,7 +42,8 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 		removeLater = true;
 		this.experienceValue = 20;
 		this.action =  new IdleAction();
-		
+		//this.action.performAction(this);
+		//this.action.removeAction(this);
 
         
 		//texture is set in RenderRobot.java
@@ -52,20 +53,14 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 	}
 
 	//The controller block changes state and passes the corresponding EntityAction to the robot
-	public void changeBehavior(EntityAction a) {
+	public void changeBehavior(EntityAction action) {
 		//Clear existing tasks
 		//this.tasks.taskEntries.clear();
 		
-		//change action
-		this.action = a;
-		System.out.println(this.action.getClass());
-		System.out.println(a.getClass());		
-//		this.tasks.taskEntries.clear();
-//		this.targetTasks.taskEntries.clear();
 		this.action.removeAction(this);
-		
+		this.action = action;
 		this.action.performAction(this);
-		
+
 	}
 
 	protected void applyEntityAttributes()
@@ -97,22 +92,18 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 	
 	public void onLivingUpdate() {
 //		this.jump();
-			
-		/*
+		
 		if(!this.worldObj.isRemote){
 			if (this.worldObj.isDaytime()) {
 				//System.out.println("true");
-				this.action.removeAction(this);
-				this.action = new IdleAction();
+				//this.changeBehavior(new JumpAction());
 			} else {
 				//System.out.println("false");
-				this.action.removeAction(this);
-				this.action = new AttackAction();
+				//this.changeBehavior(new AttackAction());
 			}
 		}
-		*/
-
-		this.action.performAction(this);
+		//this.action = new JumpAction();
+		//this.action.performAction(this);
 		super.onLivingUpdate();
 	}
 	

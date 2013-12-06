@@ -13,6 +13,7 @@ public class JumpAction implements EntityAction {
 		//If you add a new task, please add a corresponding remove function in removeAction
 		//Note: This isn't a task so does not need to be removed but something that ends it is helpful too
 		robot.setFire(1);
+		//robot.onLivingUpdate();
 		//robot.setDead();
 		//robot.tasks.addTask(1, new EntityAIWander((EntityCreature) robot, 1.0D));
 		//robot.setSprinting(true);

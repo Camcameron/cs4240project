@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import RobotMod.actions.AttackAction;
+import RobotMod.actions.EntityAction;
 import RobotMod.actions.IdleAction;
 import RobotMod.actions.JumpAction;
 import net.minecraft.entity.Entity;
@@ -12,15 +13,18 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.src.ModLoader;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 
 public class BlockControllerTileEntity extends TileEntity {
 	private int field_82350_j = 6;
     private int field_82349_r = 16;
     private int field_82348_s = 4;
     private List<Controllable> controllableList;
+    private ControllerState state;
     
     public BlockControllerTileEntity()
     {
+    	this.setState(IdleState);
         //this.delay = 20; also check out pressure plates?
     }
     
@@ -37,52 +41,90 @@ public class BlockControllerTileEntity extends TileEntity {
 	}
 	
 	public void issueControlSignal() {
-		int i = 0;				
-		controllableList = robotsInRange();		
-		
-		//controllableList = robotsInRange();
-		for(i = 0; i < controllableList.size(); i++){
-//			System.out.println("!wwwwwwwwwww!");
-//			System.out.println(list.get(i));
-			(controllableList.get(i)).changeBehavior(new JumpAction());
-			//( (EntityLivingBase) list.get(i)).setJumping(true);
-			this.worldObj.updateEntity((Entity) controllableList.get(i));
-//			System.out.println("!wwwwwwwwwww!");
+//		int i = 0;				
+//		controllableList = robotsInRange();		
+//		
+//		for(i = 0; i < controllableList.size(); i++){
+//			System.out.println(controllableList.get(i));
+//			state.issueControlSignal();
+//			this.worldObj.updateEntity((Entity) controllableList.get(i));
+//		}
+//		
+		if(this.state == IdleState){
+			this.setState(AttackState);
+			System.out.println("Idle State!");
 		}
+		else if(this.state == AttackState){
+			this.setState(IdleState);
+			System.out.println("Attack State!");
+		}
+//		else if(this.state == JumpState){
+//			this.setState(IdleState);
+//			System.out.println("Jump State!");
+//		}
+		//this.setState(IdleState);
+		this.state.issueControlSignal(this.worldObj);
 	}
 	public void updateEntity()
 	{
-		//issueControlSignal();
-//		int i = 0;		
-//		List<Controllable> list = robotsInRange();
-//		for(i = 0; i < list.size(); i++){
-////			System.out.println("!wwwwwwwwwww!");
-////			System.out.println(list.get(i));
-//			(list.get(i)).changeBehavior(new AttackAction());
-//			//( (EntityLivingBase) list.get(i)).setJumping(true);
-////			System.out.println("!wwwwwwwwwww!");
-//			
-//		}
+
 		super.updateEntity();
-		//v might be usefull for getting robots?
-		//EntityRobot robot = null;
-		//this.worldObj.getEntitiesWithinAABB(robot, par2AxisAlignedBB);
-		//int i;
-		//this.worldObj.getEntitiesWithinAABB(robot.getClass(), par2AxisAlignedBB);
-		//this.worldObj.createExplosion(this, (double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D, (double)this.field_82349_r);
+
     }
 	
+	protected void setState(ControllerState state) {
+	    //assert state!=null;
+	    assert !state.equals(this.state) : "Setting the same state!";
+	    
+	    this.state = state;
+	    
+	  }
+	private final ControllerState IdleState = new ControllerState(){
 
-	/*
-	public void resetAI() {
-		// TODO Auto-generated method stub		
-		List<Controllable> list = robotsInRange();
-		for (Controllable c : list ) {			
-			((EntityLivingBase) c).setJumping(false);
+		@Override
+		public void issueControlSignal(World worldObj) {
+			int i = 0;				
+			controllableList = robotsInRange();		
 			
-			c.changeBehavior(new IdleAction());
+			for(i = 0; i < controllableList.size(); i++){
+				System.out.println(controllableList.get(i));
+				controllableList.get(i).changeBehavior(new IdleAction());
+				worldObj.updateEntity((Entity) controllableList.get(i));
+			}
+			setState(AttackState);
 		}
 		
-	}
-	*/
+	};
+	
+	private final ControllerState AttackState = new ControllerState(){
+
+		@Override
+		public void issueControlSignal(World worldObj) {
+			int i = 0;				
+			controllableList = robotsInRange();		
+			
+			for(i = 0; i < controllableList.size(); i++){
+				System.out.println(controllableList.get(i));
+				controllableList.get(i).changeBehavior(new AttackAction());
+				worldObj.updateEntity((Entity) controllableList.get(i));
+			}
+			//setState(IdleState);
+		}		
+	};
+	
+	private final ControllerState JumpState = new ControllerState(){
+
+		@Override
+		public void issueControlSignal(World worldObj) {
+			int i = 0;				
+			controllableList = robotsInRange();		
+			
+			for(i = 0; i < controllableList.size(); i++){
+				System.out.println(controllableList.get(i));
+				controllableList.get(i).changeBehavior(new JumpAction());
+				worldObj.updateEntity((Entity) controllableList.get(i));
+			}
+			//setState(IdleState);
+		}		
+	};
 }
