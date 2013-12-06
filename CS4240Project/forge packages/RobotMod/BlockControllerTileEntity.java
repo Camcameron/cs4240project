@@ -40,19 +40,17 @@ public class BlockControllerTileEntity extends TileEntity {
 	public void collectControllables() {
 	}
 	
-	public void issueControlSignal() {
-		if(this.state == IdleState){
-			this.setState(AttackState);
-			System.out.println("Set Attack State!");
-		}
-		else if(this.state == AttackState){
-			this.setState(JumpState);
-			System.out.println("Set Jump State!");
-		}
-		else if(this.state == JumpState){
-			this.setState(IdleState);
-			System.out.println("Set Idle State!");
-		}
+	public void issueControlSignal(BlockController b) {
+//		if(this.state == IdleState){
+//			this.setState(AttackState);
+//		}
+//		else if(this.state == AttackState){
+//			this.setState(JumpState);
+//		}
+//		else if(this.state == JumpState){
+//			this.setState(IdleState);
+//		}
+		this.state.transition(this, b);
 		this.state.issueControlSignal(this.worldObj);
 		
 	}
@@ -83,6 +81,12 @@ public class BlockControllerTileEntity extends TileEntity {
 			}
 			System.out.println("Updated actions...");
 		}
+
+		@Override
+		public void transition(BlockControllerTileEntity te, BlockController b) {
+			te.setState(AttackState);			
+			b.setLightValue(1);
+		}
 		
 	};
 	
@@ -99,6 +103,12 @@ public class BlockControllerTileEntity extends TileEntity {
 			}
 			System.out.println("Updated actions...");
 		}		
+
+		@Override
+		public void transition(BlockControllerTileEntity te, BlockController b) {
+			te.setState(JumpState);
+			b.setLightValue(.5f);
+		}
 	};
 	
 	private final ControllerState JumpState = new ControllerState(){
@@ -113,6 +123,12 @@ public class BlockControllerTileEntity extends TileEntity {
 				worldObj.updateEntity((Entity) controllableList.get(i));
 			}
 			//setState(IdleState);
+		}
+
+		@Override
+		public void transition(BlockControllerTileEntity te, BlockController b) {
+			te.setState(IdleState);	
+			b.setLightValue(0);
 		}		
 	};
 	
