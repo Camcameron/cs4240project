@@ -50,20 +50,18 @@ public class BlockControllerTileEntity extends TileEntity {
 //			this.worldObj.updateEntity((Entity) controllableList.get(i));
 //		}
 //		
+		boolean test = false;
 		if(this.state == IdleState){
 			this.setState(AttackState);
-			System.out.println("Idle State!");
+			//System.out.println("Set Attack State!");
+			test = true;
 		}
 		else if(this.state == AttackState){
 			this.setState(IdleState);
-			System.out.println("Attack State!");
+			System.out.println("Set Idle State!");
 		}
-//		else if(this.state == JumpState){
-//			this.setState(IdleState);
-//			System.out.println("Jump State!");
-//		}
-		//this.setState(IdleState);
 		this.state.issueControlSignal(this.worldObj);
+		
 	}
 	public void updateEntity()
 	{
@@ -87,11 +85,10 @@ public class BlockControllerTileEntity extends TileEntity {
 			controllableList = robotsInRange();		
 			
 			for(i = 0; i < controllableList.size(); i++){
-				System.out.println(controllableList.get(i));
 				controllableList.get(i).changeBehavior(new IdleAction());
 				worldObj.updateEntity((Entity) controllableList.get(i));
 			}
-			setState(AttackState);
+			System.out.println("Updated actions...");
 		}
 		
 	};
@@ -104,11 +101,10 @@ public class BlockControllerTileEntity extends TileEntity {
 			controllableList = robotsInRange();		
 			
 			for(i = 0; i < controllableList.size(); i++){
-				System.out.println(controllableList.get(i));
 				controllableList.get(i).changeBehavior(new AttackAction());
 				worldObj.updateEntity((Entity) controllableList.get(i));
 			}
-			//setState(IdleState);
+			System.out.println("Updated actions...");
 		}		
 	};
 	

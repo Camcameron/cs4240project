@@ -95,17 +95,21 @@ public class BlockController extends BlockContainer {
     /**
      * Called when the block is clicked by a player. Args: x, y, z, entityPlayer
      */
-    public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer) {}
+    public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer) {
+    	//tileEntity.issueControlSignal();
+    }
 
     /**
      * Called upon block activation (right click on the block.)
      */
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
-    	
+    	if(!par1World.isRemote){
     	par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "random.click", 0.3F, 0.6F);
         this.setLightValue(20);
         tileEntity.issueControlSignal();
+    	}
+        //tileEntity.issueControlSignal();
 //        int i1 = par1World.getBlockMetadata(par2, par3, par4);
 //        int j1 = i1 & 7;
 //        int k1 = 8 - (i1 & 8);
