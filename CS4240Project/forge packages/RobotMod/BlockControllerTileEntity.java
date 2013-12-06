@@ -41,22 +41,15 @@ public class BlockControllerTileEntity extends TileEntity {
 	}
 	
 	public void issueControlSignal() {
-//		int i = 0;				
-//		controllableList = robotsInRange();		
-//		
-//		for(i = 0; i < controllableList.size(); i++){
-//			System.out.println(controllableList.get(i));
-//			state.issueControlSignal();
-//			this.worldObj.updateEntity((Entity) controllableList.get(i));
-//		}
-//		
-		boolean test = false;
 		if(this.state == IdleState){
 			this.setState(AttackState);
-			//System.out.println("Set Attack State!");
-			test = true;
+			System.out.println("Set Attack State!");
 		}
 		else if(this.state == AttackState){
+			this.setState(JumpState);
+			System.out.println("Set Jump State!");
+		}
+		else if(this.state == JumpState){
 			this.setState(IdleState);
 			System.out.println("Set Idle State!");
 		}
@@ -116,7 +109,6 @@ public class BlockControllerTileEntity extends TileEntity {
 			controllableList = robotsInRange();		
 			
 			for(i = 0; i < controllableList.size(); i++){
-				System.out.println(controllableList.get(i));
 				controllableList.get(i).changeBehavior(new JumpAction());
 				worldObj.updateEntity((Entity) controllableList.get(i));
 			}
