@@ -31,21 +31,20 @@ import net.minecraft.world.World;
 import RobotMod.actions.*;
 import RobotMod.actions.EntityAction;
 
-public class EntityRobot extends EntityMob implements Controllable// extend this to make mob
-												// hostile
+public class EntityRobot extends EntityMob implements Controllable
+
 {
 	EntityAction action;
 	boolean removeLater;
-	
+
 	public EntityRobot(World par1World) {
 		super(par1World);
 		removeLater = true;
 		this.experienceValue = 20;
-		this.action =  new IdleAction();
+		this.action = new IdleAction();
 
 	}
 
-	//The controller block changes state and passes the corresponding EntityAction to the robot
 	public void changeBehavior(EntityAction action) {
 		this.action.removeAction(this);
 		this.action = action;
@@ -53,51 +52,35 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 
 	}
 
-	protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.followRange).setAttribute(40.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.23000000417232513D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(2.0D);
-    }
-	
-	
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.followRange)
+				.setAttribute(40.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
+				.setAttribute(0.23000000417232513D);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
+				.setAttribute(2.0D);
+	}
+
 	public void onLivingUpdate() {
-//		this.jump();
-		
-//		if(!this.worldObj.isRemote){
-//			if (this.worldObj.isDaytime()) {
-//				//System.out.println("true");
-//				//this.changeBehavior(new JumpAction());
-//			} else {
-//				//System.out.println("false");
-//				//this.changeBehavior(new AttackAction());
-//			}
-//		}
-		//this.action = new JumpAction();
-		//this.action.performAction(this);
 		super.onLivingUpdate();
 	}
-	
-	//AMount of health
-	public int func_110143_aJ () {
+
+	public int func_110143_aJ() {
 		return 10;
 	}
 
-	public int func_82193_c(Entity par1Entity) // the amount of damage
-	{
+	public int func_82193_c(Entity par1Entity) {
 		return 4;
 	}
 
 	protected void fall(float par1) {
 	}
 
-
 	protected void playStepSound(int par1, int par2, int par3, int par4) {
 		this.playSound("mob.zombie.step", 0.15F, 1.0F);
 	}
 
-	//pig sounds are placeholders
 	protected String getLivingSound() {
 		return "mob.pig.say";
 	}
@@ -118,10 +101,8 @@ public class EntityRobot extends EntityMob implements Controllable// extend this
 		return true;
 	}
 
-	protected boolean isAIEnabled()// .Allow your AI task to work?
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
-
 
 }

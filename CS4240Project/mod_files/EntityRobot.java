@@ -1,32 +1,21 @@
 package net.minecraft.src;
 
-public class EntityRobot extends EntityCreature// extend this to make mob
-												// hostile
-{
+public class EntityRobot extends EntityCreature {
 	public EntityRobot(World par1World) {
 		super(par1World);
-		
-		//texture is set in RenderRobot.java
-		//this.texture = "/mob/RobotTexture.png";
-
-		//
-
 	}
 
-	public int func_82193_c(Entity par1Entity) // the amount of damage
-	{
+	public int func_82193_c(Entity par1Entity) {
 		return 4;
 	}
 
 	protected void fall(float par1) {
 	}
 
-	public int getMaxHealth() // Mob health
-	{
+	public int getMaxHealth() {
 		return 10;
 	}
 
-	//pig sounds are placeholders
 	protected String getLivingSound() {
 		return "mob.pig.say";
 	}
@@ -47,8 +36,7 @@ public class EntityRobot extends EntityCreature// extend this to make mob
 		return true;
 	}
 
-	protected boolean isAIEnabled()// Allow your AI task to work?
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 }

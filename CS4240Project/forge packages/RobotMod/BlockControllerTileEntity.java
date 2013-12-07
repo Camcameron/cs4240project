@@ -17,65 +17,58 @@ import net.minecraft.world.World;
 
 public class BlockControllerTileEntity extends TileEntity {
 	private int field_82350_j = 6;
-    private int field_82349_r = 16;
-    private int field_82348_s = 4;
-    private List<Controllable> controllableList;
-    private ControllerState state;
-    
-    public BlockControllerTileEntity()
-    {
-    	this.setState(IdleState);
-        //this.delay = 20; also check out pressure plates?
-    }
-    
-	public List<Controllable> robotsInRange()
-    {
+	private int field_82349_r = 16;
+	private int field_82348_s = 4;
+	private List<Controllable> controllableList;
+	private ControllerState state;
+
+	public BlockControllerTileEntity() {
+		this.setState(IdleState);
+	}
+
+	public List<Controllable> robotsInRange() {
 		double d0 = 8.0D;
-        double d1 = 5.0D;        
-        List list = this.worldObj.getEntitiesWithinAABB(Controllable.class, AxisAlignedBB.getAABBPool().getAABB((double)this.xCoord - d0, (double)this.yCoord - d1, (double)this.zCoord - d0, (double)this.xCoord + d0, (double)this.yCoord + d1, (double)this.zCoord + d0));
-        //list.get(1).        
+		double d1 = 5.0D;
+		List list = this.worldObj.getEntitiesWithinAABB(
+				Controllable.class,
+				AxisAlignedBB.getAABBPool().getAABB((double) this.xCoord - d0,
+						(double) this.yCoord - d1, (double) this.zCoord - d0,
+						(double) this.xCoord + d0, (double) this.yCoord + d1,
+						(double) this.zCoord + d0));
+
 		return list;
-    }	
-	
+	}
+
 	public void collectControllables() {
 	}
-	
+
 	public void issueControlSignal(BlockController b) {
-//		if(this.state == IdleState){
-//			this.setState(AttackState);
-//		}
-//		else if(this.state == AttackState){
-//			this.setState(JumpState);
-//		}
-//		else if(this.state == JumpState){
-//			this.setState(IdleState);
-//		}
 		this.state.transition(this, b);
 		this.state.issueControlSignal(this.worldObj);
-		
+
 	}
-	public void updateEntity()
-	{
+
+	public void updateEntity() {
 
 		super.updateEntity();
 
-    }
-	
+	}
+
 	protected void setState(ControllerState state) {
-	    //assert state!=null;
-	    assert !state.equals(this.state) : "Setting the same state!";
-	    
-	    this.state = state;
-	    
-	  }
-	private final ControllerState IdleState = new ControllerState(){
+		assert !state.equals(this.state) : "Setting the same state!";
+
+		this.state = state;
+
+	}
+
+	private final ControllerState IdleState = new ControllerState() {
 
 		@Override
 		public void issueControlSignal(World worldObj) {
-			int i = 0;				
-			controllableList = robotsInRange();		
-			
-			for(i = 0; i < controllableList.size(); i++){
+			int i = 0;
+			controllableList = robotsInRange();
+
+			for (i = 0; i < controllableList.size(); i++) {
 				controllableList.get(i).changeBehavior(new IdleAction());
 				worldObj.updateEntity((Entity) controllableList.get(i));
 			}
@@ -84,25 +77,25 @@ public class BlockControllerTileEntity extends TileEntity {
 
 		@Override
 		public void transition(BlockControllerTileEntity te, BlockController b) {
-			te.setState(AttackState);			
+			te.setState(AttackState);
 			b.setLightValue(1);
 		}
-		
+
 	};
-	
-	private final ControllerState AttackState = new ControllerState(){
+
+	private final ControllerState AttackState = new ControllerState() {
 
 		@Override
 		public void issueControlSignal(World worldObj) {
-			int i = 0;				
-			controllableList = robotsInRange();		
-			
-			for(i = 0; i < controllableList.size(); i++){
+			int i = 0;
+			controllableList = robotsInRange();
+
+			for (i = 0; i < controllableList.size(); i++) {
 				controllableList.get(i).changeBehavior(new AttackAction());
 				worldObj.updateEntity((Entity) controllableList.get(i));
 			}
 			System.out.println("Updated actions...");
-		}		
+		}
 
 		@Override
 		public void transition(BlockControllerTileEntity te, BlockController b) {
@@ -110,28 +103,25 @@ public class BlockControllerTileEntity extends TileEntity {
 			b.setLightValue(.5f);
 		}
 	};
-	
-	private final ControllerState JumpState = new ControllerState(){
+
+	private final ControllerState JumpState = new ControllerState() {
 
 		@Override
 		public void issueControlSignal(World worldObj) {
-			int i = 0;				
-			controllableList = robotsInRange();		
-			
-			for(i = 0; i < controllableList.size(); i++){
+			int i = 0;
+			controllableList = robotsInRange();
+
+			for (i = 0; i < controllableList.size(); i++) {
 				controllableList.get(i).changeBehavior(new JumpAction());
 				worldObj.updateEntity((Entity) controllableList.get(i));
 			}
-			//setState(IdleState);
 		}
 
 		@Override
 		public void transition(BlockControllerTileEntity te, BlockController b) {
-			te.setState(IdleState);	
+			te.setState(IdleState);
 			b.setLightValue(0);
-		}		
+		}
 	};
-	
 
-	
 }
